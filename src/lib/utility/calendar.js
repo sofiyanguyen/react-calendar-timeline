@@ -174,13 +174,21 @@ export function calculateDimensions({
   const itemTimeRange = itemEnd - itemStart
 
   let newItemStart = isDragging ? dragTime : itemStart
+  const newItemEnd = newItemStart + itemTimeRange
+
+  // This item is not visible
+  if (!(newItemStart <= canvasTimeEnd &&
+    newItemEnd >= canvasTimeStart)) {
+    return
+  }
+
 
   const ratio =
     1 / coordinateToTimeRatio(canvasTimeStart, canvasTimeEnd, canvasWidth)
 
   // restrict startTime and endTime to be bounded by canvasTimeStart and canasTimeEnd
-  const effectiveStartTime = Math.max(itemStart, canvasTimeStart)
-  const effectiveEndTime = Math.min(itemEnd, canvasTimeEnd)
+  const effectiveStartTime = Math.max(newItemStart, canvasTimeStart)
+  const effectiveEndTime = Math.min(newItemEnd, canvasTimeEnd)
   const itemWidth = (effectiveEndTime - effectiveStartTime) * ratio
 
   const dimensions = {
@@ -239,17 +247,6 @@ function getGroupedItems(items, groupOrders) {
   }
 
   return groupedItems
-}
-
-export function getVisibleItems(items, canvasTimeStart, canvasTimeEnd, keys) {
-  const { itemTimeStartKey, itemTimeEndKey } = keys
-
-  return items.filter(item => {
-    return (
-      _get(item, itemTimeStartKey) <= canvasTimeEnd &&
-      _get(item, itemTimeEndKey) >= canvasTimeStart
-    )
-  })
 }
 
 const EPSILON = 0.001
@@ -417,25 +414,18 @@ state
   const canvasTimeEnd = canvasTimeStart + zoom * 3
   const canvasWidth = width * 3
 
-  // Find items that fit within canvasTimeStart and canvasTimeEnd
-  // this is used when calculating the number of 'lines' each group
-  // will use.
-  const visibleItems = getVisibleItems(
-    items,
-    canvasTimeStart,
-    canvasTimeEnd,
-    keys
-  )
-
   // Get the order of groups based on their id key
   const groupOrders = getGroupOrders(groups, keys)
 
-
-  let dimensionItems = visibleItems.reduce((memo, item) => {
+  let dimensionItems = []
+  items.forEach(item => {
     const itemId = _get(item, keys.itemIdKey)
     const isDragging = itemId === draggingItem
     const isResizing = itemId === resizingItem
 
+    if (!groupOrders[_get(item, keys.itemGroupKey)]) {
+      return;
+    }
 
     let dimension = calculateDimensions({
       itemTimeStart: _get(item, keys.itemTimeStartKey),
@@ -459,14 +449,12 @@ state
       dimension.height = lineHeight * itemHeightRatio
       dimension.isDragging = isDragging
 
-      memo.push({
+      dimensionItems.push({
         id: itemId,
         dimensions: dimension
       })
     }
-
-    return memo
-  }, [])
+  })
 
   // Get a new array of groupOrders holding the stacked items
   const { height, groupHeights, groupTops } = stackAll(
