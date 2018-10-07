@@ -226,9 +226,10 @@ export function getGroupOrders(groups, keys) {
  */
 function getGroupedItems(items, groupOrders) {
   var groupedItems = {}
+  var keys = Object.keys(groupOrders)
   // Initialize with result object for each group
-  for (let i = 0; i < Object.keys(groupOrders).length; i++) {
-    const groupOrder = groupOrders[Object.keys(groupOrders)[i]]
+  for (let i = 0; i < keys.length; i++) {
+    const groupOrder = groupOrders[keys[i]]
     groupedItems[i] = {
       index: groupOrder.index,
       group: groupOrder.group,
@@ -239,9 +240,10 @@ function getGroupedItems(items, groupOrders) {
   // Populate groups
   for (let i = 0; i < items.length; i++) {
     if (items[i].dimensions.order !== undefined) {
-      const groupOrder = groupedItems[items[i].dimensions.order.index]
-      if (groupOrder) {
-        groupOrder.items.push(items[i])
+      const groupItem = groupedItems[items[i].dimensions.order.index]
+      if (groupItem) {
+        groupItem.items.push(items[i])
+      }
       }
     }
   }
@@ -442,9 +444,9 @@ state
 
     if (dimension) {
       dimension.top = null
-      dimension.order = isDragging
-        ? { index: newGroupOrder, group: groups[newGroupOrder] }
-        : groupOrders[_get(item, keys.itemGroupKey)]
+      dimension.order = isDragging ?
+        { index: newGroupOrder, group: groups[newGroupOrder] } :
+        groupOrders[_get(item, keys.itemGroupKey)]
       dimension.stack = !item.isOverlay
       dimension.height = lineHeight * itemHeightRatio
       dimension.isDragging = isDragging
@@ -455,13 +457,11 @@ state
       })
     }
   })
-
   // Get a new array of groupOrders holding the stacked items
   const { height, groupHeights, groupTops } = stackAll(
     dimensionItems,
     groupOrders,
     lineHeight,
-    groups,
     stackItems
   )
 
