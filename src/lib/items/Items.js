@@ -95,8 +95,9 @@ export default class Items extends Component {
   render() {
     const {
       dimensionItems,
-      items
-      groups
+      items,
+      groups,
+      keys
     } = this.props
     const { itemIdKey, itemGroupKey } = keys
 

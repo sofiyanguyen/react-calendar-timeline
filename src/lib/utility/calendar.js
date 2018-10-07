@@ -244,7 +244,6 @@ function getGroupedItems(items, groupOrders) {
       if (groupItem) {
         groupItem.items.push(items[i])
       }
-      }
     }
   }
 
