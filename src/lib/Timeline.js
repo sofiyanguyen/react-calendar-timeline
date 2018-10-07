@@ -387,6 +387,10 @@ export default class ReactCalendarTimeline extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (this.props.sidebarWidth !== prevProps.sidebarWidth || 
+      this.props.rightSidebarWidth !== prevProps.rightSidebarWidth) {
+      this.resize(this.props)
+    }
     const newZoom = this.state.visibleTimeEnd - this.state.visibleTimeStart
     const oldZoom = prevState.visibleTimeEnd - prevState.visibleTimeStart
     
