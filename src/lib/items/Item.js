@@ -14,9 +14,7 @@ import {
   selectedAndCanResizeLeft,
   selectedAndCanResizeLeftAndDragLeft,
   selectedAndCanResizeRight,
-  selectedAndCanResizeRightAndDragRight,
-  leftResizeStyle,
-  rightResizeStyle
+  selectedAndCanResizeRightAndDragRight
 } from './styles'
 export default class Item extends Component {
   // removed prop type check for SPEED!
@@ -248,8 +246,8 @@ export default class Item extends Component {
   }
 
   mountInteract() {
-    const leftResize = this.props.useResizeHandle ? this.dragLeft : true
-    const rightResize = this.props.useResizeHandle ? this.dragRight : true
+    const leftResize = this.props.useResizeHandle ? ".rct-item-handler-left" : true
+    const rightResize = this.props.useResizeHandle ? ".rct-item-handler-right" : true
 
     interact(this.item)
       .resizable({
@@ -603,11 +601,13 @@ export default class Item extends Component {
     return {
       left: {
         ref: this.getDragLeftRef,
-        style: Object.assign({}, leftResizeStyle, props.leftStyle)
+        className: "rct-item-handler rct-item-handler-left",
+        style: props.leftStyle
       },
       right: {
         ref: this.getDragRightRef,
-        style: Object.assign({}, rightResizeStyle, props.rightStyle)
+        className: "rct-item-handler rct-item-handler-right",
+        style: props.rightStyle
       }
     }
   }
