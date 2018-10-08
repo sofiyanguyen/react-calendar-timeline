@@ -246,8 +246,8 @@ export default class Item extends Component {
   }
 
   mountInteract() {
-    const leftResize = this.props.useResizeHandle ? ".rct-item-handler-left" : true
-    const rightResize = this.props.useResizeHandle ? ".rct-item-handler-right" : true
+    const leftResize = this.props.useResizeHandle ? ".rct-item-handler-resize-left" : true
+    const rightResize = this.props.useResizeHandle ? ".rct-item-handler-resize-right" : true
 
     interact(this.item)
       .resizable({
@@ -601,12 +601,12 @@ export default class Item extends Component {
     return {
       left: {
         ref: this.getDragLeftRef,
-        className: "rct-item-handler rct-item-handler-left",
+        className: "rct-item-handler rct-item-handler-left rct-item-handler-resize-left",
         style: props.leftStyle
       },
       right: {
         ref: this.getDragRightRef,
-        className: "rct-item-handler rct-item-handler-right",
+        className: "rct-item-handler rct-item-handler-right rct-item-handler-resize-right",
         style: props.rightStyle
       }
     }
