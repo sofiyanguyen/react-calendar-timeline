@@ -30,12 +30,6 @@ export default class TimelineElementsHeader extends Component {
     }
   }
 
-  handleHeaderMouseDown(evt) {
-    //dont bubble so that we prevent our scroll component
-    //from knowing about it
-    evt.stopPropagation()
-  }
-
   headerLabel(time, unit, width) {
     const { headerLabelFormats: f } = this.props
 
@@ -225,7 +219,6 @@ export default class TimelineElementsHeader extends Component {
         key="header"
         data-testid="header"
         className="rct-header"
-        onMouseDown={this.handleHeaderMouseDown}
         onTouchStart={this.touchStart}
         onTouchEnd={this.touchEnd}
         style={headerStyle}

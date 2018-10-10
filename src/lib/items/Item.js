@@ -532,6 +532,7 @@ export default class Item extends Component {
 
   onMouseUp = e => {
     if (!this.state.interactMounted && this.startedClicking) {
+      e.preventDefault()
       this.startedClicking = false
       this.actualClick(e, 'click')
     }
@@ -546,14 +547,15 @@ export default class Item extends Component {
 
   onTouchEnd = e => {
     if (!this.state.interactMounted && this.startedTouching) {
+      e.preventDefault()
       this.startedTouching = false
       this.actualClick(e, 'touch')
     }
   }
 
   handleDoubleClick = e => {
-    e.stopPropagation()
     if (this.props.onItemDoubleClick) {
+      e.preventDefault()
       this.props.onItemDoubleClick(this.itemId, e, this.props.item)
     }
   }
@@ -561,7 +563,6 @@ export default class Item extends Component {
   handleContextMenu = e => {
     if (this.props.onContextMenu) {
       e.preventDefault()
-      e.stopPropagation()
       this.props.onContextMenu(this.itemId, e, this.props.item)
     }
   }
