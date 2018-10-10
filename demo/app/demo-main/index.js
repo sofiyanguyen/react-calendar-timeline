@@ -154,6 +154,7 @@ export default class App extends Component {
         canMove
         canResize="right"
         canSelect
+        canvasBuffer={3}
         itemsSorted
         itemTouchSendsClick={false}
         stackItems

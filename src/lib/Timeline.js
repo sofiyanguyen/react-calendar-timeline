@@ -50,6 +50,8 @@ export default class ReactCalendarTimeline extends Component {
     minZoom: PropTypes.number,
     maxZoom: PropTypes.number,
 
+    canvasBuffer: PropTypes.number,
+
     clickTolerance: PropTypes.number,
 
     canChangeGroup: PropTypes.bool,
@@ -171,6 +173,8 @@ export default class ReactCalendarTimeline extends Component {
     headerLabelHeight: 30,
     itemHeightRatio: 0.65,
 
+    canvasBuffer: 1,
+
     minZoom: 60 * 60 * 1000, // 1 hour
     maxZoom: 5 * 365.24 * 86400 * 1000, // 5 years
 
@@ -253,10 +257,11 @@ export default class ReactCalendarTimeline extends Component {
       width,
       visibleTimeStart,
       visibleTimeEnd,
-      canvasTimeStart
+      canvasTimeStart,
+      canvasBuffer
     } = this.state
     const zoom = visibleTimeEnd - visibleTimeStart
-    const canvasTimeEnd = canvasTimeStart + zoom * 3
+    const canvasTimeEnd = canvasTimeStart + zoom * canvasBuffer
 
     return {
       timelineWidth: width,
@@ -347,12 +352,13 @@ export default class ReactCalendarTimeline extends Component {
       visibleTimeStart,
       visibleTimeEnd,
       items,
-      groups
+      groups,
+      canvasBuffer
     } = nextProps
 
     // This is a gross hack pushing items and groups in to state only to allow
     // For the forceUpdate check
-    let derivedState = {items, groups}
+    let derivedState = {items, groups, canvasBuffer: Math.max(1, canvasBuffer) * 2 + 1}
 
     // if the items or groups have changed we must re-render
     const forceUpdate = items !== prevState.items || groups !== prevState.groups
@@ -401,7 +407,8 @@ export default class ReactCalendarTimeline extends Component {
 
     // The bounds have changed? Report it!
     if (this.props.onBoundsChange && this.state.canvasTimeStart !== prevState.canvasTimeStart) {
-      this.props.onBoundsChange(this.state.canvasTimeStart, this.state.canvasTimeStart + newZoom * 3)
+      const { canvasBuffer } = this.state
+      this.props.onBoundsChange(this.state.canvasTimeStart, this.state.canvasTimeStart + newZoom * canvasBuffer)
     }
 
     // Check the scroll is correct
@@ -604,7 +611,8 @@ export default class ReactCalendarTimeline extends Component {
       width,
       canvasTimeStart,
       visibleTimeStart,
-      visibleTimeEnd
+      visibleTimeEnd,
+      canvasBuffer
     } = this.state
     // this gives us distance from left of row element, so event is in
     // context of the row element, not client or page
@@ -612,12 +620,12 @@ export default class ReactCalendarTimeline extends Component {
 
     // FIXME: DRY up way to calculate canvasTimeEnd
     const zoom = visibleTimeEnd - visibleTimeStart
-    const canvasTimeEnd = zoom * 3 + canvasTimeStart
+    const canvasTimeEnd = zoom * canvasBuffer + canvasTimeStart
 
     let time = calculateTimeForXPosition(
       canvasTimeStart,
       canvasTimeEnd,
-      width * 3,
+      width * canvasBuffer,
       offsetX
     )
     time = Math.floor(time / dragSnap) * dragSnap
@@ -970,13 +978,14 @@ export default class ReactCalendarTimeline extends Component {
       width,
       visibleTimeStart,
       visibleTimeEnd,
-      canvasTimeStart
+      canvasTimeStart,
+      canvasBuffer
     } = this.state
     let { dimensionItems, height, groupHeights, groupTops } = this.state
 
     const zoom = visibleTimeEnd - visibleTimeStart
-    const canvasTimeEnd = canvasTimeStart + zoom * 3
-    const canvasWidth = width * 3
+    const canvasTimeEnd = canvasTimeStart + zoom * canvasBuffer
+    const canvasWidth = width * canvasBuffer
     const minUnit = getMinUnit(zoom, width, timeSteps)
     const headerHeight = headerLabelGroupHeight + headerLabelHeight
 

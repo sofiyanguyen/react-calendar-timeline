@@ -409,11 +409,12 @@ state
     resizingItem,
     resizingEdge,
     resizeTime,
-    newGroupOrder
+    newGroupOrder,
+    canvasBuffer
   } = state
   const zoom = visibleTimeEnd - visibleTimeStart
-  const canvasTimeEnd = canvasTimeStart + zoom * 3
-  const canvasWidth = width * 3
+  const canvasTimeEnd = canvasTimeStart + zoom * canvasBuffer
+  const canvasWidth = width * canvasBuffer
 
   // Get the order of groups based on their id key
   const groupOrders = getGroupOrders(groups, keys)
