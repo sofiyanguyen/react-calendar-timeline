@@ -1,3 +1,9 @@
+# Note
+
+This repository is a fork of [namespace-ee/react-calendar-timeline](https://github.com/namespace-ee/react-calendar-timeline)
+
+Features, documentation and tests here may be significantly out of date compared to the forked from repository. Check forked from repository before using this.
+
 # React Calendar Timeline
 
 A modern and responsive react timeline component.
@@ -899,7 +905,7 @@ The pinch gesture on a trackpad (not a touch device) works in Chrome and Firefox
 If you like to improve React Calendar Timeline fork the repo and get started by running the following:
 
 ```bash
-$ git clone https://github.com/namespace-ee/react-calendar-timeline.git react-calendar-timeline
+$ git clone https://github.com/Nova-Group/react-calendar-timeline.git react-calendar-timeline
 $ cd react-calendar-timeline
 $ yarn
 $ yarn start
