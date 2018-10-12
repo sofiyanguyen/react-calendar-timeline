@@ -432,6 +432,14 @@ function (visibleTimeStart, visibleTimeEnd, updateScrollCanvas) {
 
 Called when the bounds in the calendar's canvas change. Use it for example to load new data to display. (see "Behind the scenes" below). `canvasTimeStart` and `canvasTimeEnd` are unix timestamps in milliseconds.
 
+## canvasBuffer
+
+The number of extra widths the canvas will be. Increasing this limit will allow for more scrolling before onBoundsChange is called, but will cause each onBoundsChange to take more time. The canvasBuffer is the number of additional widths on each side of the current canvas. Calculated as `2*canvasBuffer+1`
+
+Changing `canvasBuffer` will be applied the next time the canvas is redrawn.
+
+Default: 1
+
 ## itemRenderer
 
 Render prop function used to render a customized item. The function provides multiple paramerters that can be used to render each item.
