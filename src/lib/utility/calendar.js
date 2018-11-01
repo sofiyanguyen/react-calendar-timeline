@@ -64,7 +64,7 @@ export function iterateTimes(start, end, unit, timeSteps, callback) {
 
   if (timeSteps[unit] && timeSteps[unit] > 1) {
     let value = time.get(unit)
-    time.set(unit, value - value % timeSteps[unit])
+    time.set(unit, value - (value % timeSteps[unit]))
   }
 
   while (time.valueOf() < end) {
@@ -373,24 +373,24 @@ export function stackAll(items, groupOrders, lineHeight, stackItems) {
 /**
  * Stack the items that will be visible
  * within the canvas area
- * @param {item[]} items 
- * @param {group[]} groups 
- * @param {number} canvasTimeStart 
- * @param {number} visibleTimeStart 
- * @param {number} visibleTimeEnd 
- * @param {number} width 
- * @param {*} props 
- * @param {*} state 
+ * @param {item[]} items
+ * @param {group[]} groups
+ * @param {number} canvasTimeStart
+ * @param {number} visibleTimeStart
+ * @param {number} visibleTimeEnd
+ * @param {number} width
+ * @param {*} props
+ * @param {*} state
  */
 export function stackItems(
-items,
-groups,
-canvasTimeStart,
-visibleTimeStart,
-visibleTimeEnd,
-width,
-props,
-state
+  items,
+  groups,
+  canvasTimeStart,
+  visibleTimeStart,
+  visibleTimeEnd,
+  width,
+  props,
+  state
 ) {
   // if there are no groups return an empty array of dimensions
   if (groups.length === 0) {
@@ -428,7 +428,6 @@ state
     if (!groupOrders[_get(item, keys.itemGroupKey)]) {
       return;
     }
-
     let dimension = calculateDimensions({
       itemTimeStart: _get(item, keys.itemTimeStartKey),
       itemTimeEnd: _get(item, keys.itemTimeEndKey),
@@ -472,47 +471,53 @@ state
  * Get the the canvas area for a given visible time
  * Will shift the start/end of the canvas if the visible time
  * does not fit within the existing
- * @param {number} visibleTimeStart 
- * @param {number} visibleTimeEnd 
- * @param {boolean} forceUpdateDimensions 
- * @param {*} items 
- * @param {*} groups 
- * @param {*} props 
- * @param {*} state 
+ * @param {number} visibleTimeStart
+ * @param {number} visibleTimeEnd
+ * @param {boolean} forceUpdateDimensions
+ * @param {*} items
+ * @param {*} groups
+ * @param {*} props
+ * @param {*} state
  */
 export function calculateScrollCanvas(
-visibleTimeStart,
-visibleTimeEnd,
-forceUpdateDimensions,
-items,
-groups,
-props,
-state) {
+  visibleTimeStart,
+  visibleTimeEnd,
+  forceUpdateDimensions,
+  items,
+  groups,
+  props,
+  state
+) {
   const oldCanvasTimeStart = state.canvasTimeStart
   const oldZoom = state.visibleTimeEnd - state.visibleTimeStart
-
+  const newZoom = visibleTimeEnd - visibleTimeStart
   const newState = { visibleTimeStart, visibleTimeEnd }
 
   // Check if the current canvas covers the new times
   const canKeepCanvas =
+    newZoom === oldZoom &&
     visibleTimeStart >= oldCanvasTimeStart + oldZoom * 0.5 &&
     visibleTimeStart <= oldCanvasTimeStart + oldZoom * 1.5 &&
     visibleTimeEnd >= oldCanvasTimeStart + oldZoom * 1.5 &&
     visibleTimeEnd <= oldCanvasTimeStart + oldZoom * 2.5
-  
+
   if (!canKeepCanvas || forceUpdateDimensions) {
-    newState.canvasTimeStart = visibleTimeStart - (visibleTimeEnd - visibleTimeStart)
+    newState.canvasTimeStart =
+      visibleTimeStart - (visibleTimeEnd - visibleTimeStart)
     // The canvas cannot be kept, so calculate the new items position
-    Object.assign(newState, stackItems(
-      items,
-      groups,
-      newState.canvasTimeStart,
-      visibleTimeStart,
-      visibleTimeEnd,
-      state.width,
-      props,
-      state
-    ))
+    Object.assign(
+      newState,
+      stackItems(
+        items,
+        groups,
+        newState.canvasTimeStart,
+        visibleTimeStart,
+        visibleTimeEnd,
+        state.width,
+        props,
+        state
+      )
+    )
   }
   return newState
 }
