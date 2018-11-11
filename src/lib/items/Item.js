@@ -7,6 +7,7 @@ import { _get, deepObjectCompare } from '../utility/generic'
 import { composeEvents } from '../utility/events'
 import { defaultItemRenderer } from './defaultItemRenderer'
 import { coordinateToTimeRatio } from '../utility/calendar'
+import { getSumScroll, getSumOffset } from '../utility/dom-helpers'
 import {
   overridableStyles,
   selectedStyle,
@@ -14,7 +15,9 @@ import {
   selectedAndCanResizeLeft,
   selectedAndCanResizeLeftAndDragLeft,
   selectedAndCanResizeRight,
-  selectedAndCanResizeRightAndDragRight
+  selectedAndCanResizeRightAndDragRight,
+  leftResizeStyle,
+  rightResizeStyle
 } from './styles'
 export default class Item extends Component {
   // removed prop type check for SPEED!
@@ -48,7 +51,6 @@ export default class Item extends Component {
 
     itemProps: PropTypes.object,
     canSelect: PropTypes.bool,
-    topOffset: PropTypes.number,
     dimensions: PropTypes.object,
     groupTops: PropTypes.array,
     useResizeHandle: PropTypes.bool,
@@ -108,7 +110,6 @@ export default class Item extends Component {
       nextProps.minResizeWidth !== this.props.minResizeWidth ||
       nextProps.canChangeGroup !== this.props.canChangeGroup ||
       nextProps.canSelect !== this.props.canSelect ||
-      nextProps.topOffset !== this.props.topOffset ||
       nextProps.canMove !== this.props.canMove ||
       nextProps.canResizeLeft !== this.props.canResizeLeft ||
       nextProps.canResizeRight !== this.props.canResizeRight ||
@@ -164,8 +165,8 @@ export default class Item extends Component {
   timeFor(e) {
     const ratio = coordinateToTimeRatio(this.props.canvasTimeStart, this.props.canvasTimeEnd, this.props.canvasWidth)
 
-    const offset = this.getSumOffset(this.props.scrollRef).offsetLeft
-    const scrolls = this.getSumScrolls(this.props.scrollRef)
+    const offset = getSumOffset(this.props.scrollRef).offsetLeft
+    const scrolls = getSumScroll(this.props.scrollRef)
       
     return (e.pageX - offset + scrolls.scrollLeft) * ratio + this.props.canvasTimeStart;
   }
@@ -178,8 +179,8 @@ export default class Item extends Component {
       }
       let groupDelta = 0
 
-      const offset = this.getSumOffset(this.props.scrollRef).offsetTop
-      const scrolls = this.getSumScrolls(this.props.scrollRef)
+      const offset = getSumOffset(this.props.scrollRef).offsetTop
+      const scrolls = getSumScroll(this.props.scrollRef)
       
       for (var key of Object.keys(groupTops)) {
         var groupTop = groupTops[key]
@@ -197,31 +198,6 @@ export default class Item extends Component {
       }
     } else {
       return 0
-    }
-  }
-
-  getSumScrolls(node) {
-    if (node === document.body) {
-      return {scrollLeft: 0, scrollTop: 0}
-    } else {
-      const parent = this.getSumScrolls(node.parentNode)
-      return ({
-        scrollLeft: node.scrollLeft + parent.scrollLeft,
-        scrollTop: node.scrollTop + parent.scrollTop
-      })
-    }
-
-  }
-
-  getSumOffset(node) {
-    if (node === document.body) {
-      return {offsetLeft: 0, offsetTop: 0}
-    } else {
-      const parent = this.getSumOffset(node.offsetParent)
-      return ({
-        offsetLeft: node.offsetLeft + parent.offsetLeft,
-        offsetTop: node.offsetTop + parent.offsetTop
-      })
     }
   }
 
@@ -621,12 +597,12 @@ export default class Item extends Component {
       left: {
         ref: this.getDragLeftRef,
         className: leftName,
-        style: props.leftStyle
+        style: Object.assign({}, leftResizeStyle, props.leftStyle)
       },
       right: {
         ref: this.getDragRightRef,
         className: rightName,
-        style: props.rightStyle
+        style: Object.assign({}, rightResizeStyle, props.rightStyle)
       }
     }
   }

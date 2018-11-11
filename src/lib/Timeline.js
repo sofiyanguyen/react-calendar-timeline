@@ -302,7 +302,6 @@ export default class ReactCalendarTimeline extends Component {
       dragTime: null,
       dragGroupTitle: null,
       resizeTime: null,
-      topOffset: 0,
       resizingItem: null,
       resizingEdge: null
     }
@@ -426,12 +425,9 @@ export default class ReactCalendarTimeline extends Component {
   resize = (props = this.props) => {
     const {
       width: containerWidth,
-      top: containerTop
     } = this.container.getBoundingClientRect()
 
     let width = containerWidth - props.sidebarWidth - props.rightSidebarWidth
-    const { headerLabelGroupHeight, headerLabelHeight } = props
-    const headerHeight = headerLabelGroupHeight + headerLabelHeight
 
     const { dimensionItems, height, groupHeights, groupTops } = stackItems(
       props.items,
@@ -446,11 +442,9 @@ export default class ReactCalendarTimeline extends Component {
 
     // this is needed by dragItem since it uses pageY from the drag events
     // if this was in the context of the scrollElement, this would not be necessary
-    const topOffset = containerTop + window.pageYOffset + headerHeight
 
     this.setState({
       width,
-      topOffset,
       dimensionItems,
       height,
       groupHeights,
@@ -805,7 +799,6 @@ export default class ReactCalendarTimeline extends Component {
         useResizeHandle={this.props.useResizeHandle}
         canSelect={this.props.canSelect}
         moveResizeValidator={this.onMoveResizeValidator}
-        topOffset={this.state.topOffset}
         itemSelect={this.selectItem}
         itemDrag={this.dragItem}
         itemDrop={this.dropItem}
