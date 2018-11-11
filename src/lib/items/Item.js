@@ -481,7 +481,7 @@ export default class Item extends Component {
     return !!props.canMove
   }
 
-  componentDidUpdate(prevProps) {
+  addItemMount = () => {
     this.cacheDataFromProps(this.props)
 
     let { interactMounted } = this.state
@@ -522,6 +522,14 @@ export default class Item extends Component {
     if (interactMounted && couldDrag !== willBeAbleToDrag) {
       interact(this.item).draggable({ enabled: willBeAbleToDrag })
     }
+  }
+
+  componentDidUpdate() {
+    this.addItemMount()
+  }
+
+  componentDidMount() {
+    this.addItemMount()
   }
 
   onMouseDown = e => {
@@ -651,8 +659,8 @@ export default class Item extends Component {
         ? selectedAndCanResizeRight
         : {},
       this.props.selected &
-      this.canResizeRight(this.props) &
-      this.state.dragging
+        this.canResizeRight(this.props) &
+        this.state.dragging
         ? selectedAndCanResizeRightAndDragRight
         : {},
       props.style,
