@@ -91,9 +91,11 @@ export default class Item extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.dragging || this.state.dragging) return true
+
     var shouldUpdate =
       nextState.dragging !== this.state.dragging ||
-      nextState.dragTime !== this.state.dragTime ||
+      // nextState.dragTime !== this.state.dragTime ||
       nextState.dragGroupDelta !== this.state.dragGroupDelta ||
       nextState.resizing !== this.state.resizing ||
       nextState.resizeTime !== this.state.resizeTime ||
@@ -104,7 +106,7 @@ export default class Item extends Component {
       nextProps.canvasTimeStart !== this.props.canvasTimeStart ||
       nextProps.canvasTimeEnd !== this.props.canvasTimeEnd ||
       nextProps.canvasWidth !== this.props.canvasWidth ||
-      (nextProps.order ? nextProps.order.index : undefined) !== 
+      (nextProps.order ? nextProps.order.index : undefined) !==
         (this.props.order ? this.props.order.index : undefined) ||
       nextProps.dragSnap !== this.props.dragSnap ||
       nextProps.minResizeWidth !== this.props.minResizeWidth ||
@@ -113,7 +115,8 @@ export default class Item extends Component {
       nextProps.canMove !== this.props.canMove ||
       nextProps.canResizeLeft !== this.props.canResizeLeft ||
       nextProps.canResizeRight !== this.props.canResizeRight ||
-      nextProps.dimensions !== this.props.dimensions
+      !deepObjectCompare(nextProps.dimensions, this.props.dimensions)
+
     return shouldUpdate
   }
 
@@ -167,7 +170,7 @@ export default class Item extends Component {
 
     const offset = getSumOffset(this.props.scrollRef).offsetLeft
     const scrolls = getSumScroll(this.props.scrollRef)
-      
+
     return (e.pageX - offset + scrolls.scrollLeft) * ratio + this.props.canvasTimeStart;
   }
 
@@ -271,7 +274,7 @@ export default class Item extends Component {
               this.props.order.index + dragGroupDelta,
               this.props.order.index
             )
-            
+
             if (validResult.time) {
               dragTime = validResult.time
             } else {
