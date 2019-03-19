@@ -646,15 +646,22 @@ export default class ReactCalendarTimeline extends Component {
     return time
   }
 
-  dragItem = (item, dragTime, newGroupOrder) => {
-    let newGroup = this.props.groups[newGroupOrder]
+  dragItem = (draggingItem, dragTime, newGroupOrder) => {
+    const newGroup = this.props.groups[newGroupOrder]
     const keys = this.props.keys
 
+    const dragGroupTitle = newGroup ? _get(newGroup, keys.groupTitleKey) : ''
+
+    if (this.state.dragTime === dragTime
+      && this.state.draggingItem === draggingItem
+      && this.state.newGroupOrder === newGroupOrder
+      && this.state.dragGroupTitle === dragGroupTitle) return; // nothing has changed, do not mutate state
+
     this.setState({
-      draggingItem: item,
-      dragTime: dragTime,
-      newGroupOrder: newGroupOrder,
-      dragGroupTitle: newGroup ? _get(newGroup, keys.groupTitleKey) : ''
+      draggingItem,
+      dragTime,
+      newGroupOrder,
+      dragGroupTitle
     })
   }
 
