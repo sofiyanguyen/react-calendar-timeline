@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import PreventClickOnDrag from '../interaction/PreventClickOnDrag'
+import { deepObjectCompare } from '../utility/generic';
 
 class GroupRow extends Component {
   static propTypes = {
@@ -12,6 +13,12 @@ class GroupRow extends Component {
     clickTolerance: PropTypes.number.isRequired,
     group: PropTypes.object.isRequired,
     horizontalLineClassNamesForGroup: PropTypes.func
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.style.height !== this.props.style.height
+      || nextProps.style.width !== this.props.style.width
+      || nextProps.group.length !== this.props.group.length
   }
 
   render() {

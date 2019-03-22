@@ -33,10 +33,6 @@ class ScrollElement extends Component {
   }
 
   handleWheel = e => {
-    const { traditionalZoom } = this.props
-
-    
-
     // zoom in the time dimension
     if (e.ctrlKey || e.metaKey || e.altKey) {
       e.preventDefault()
