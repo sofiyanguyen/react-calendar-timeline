@@ -3,25 +3,9 @@ import React, { Component } from 'react'
 
 import { _get, arraysEqual } from '../utility/generic'
 
-export default class Sidebar extends Component {
-  static propTypes = {
-    groups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    groupHeights: PropTypes.array.isRequired,
-    keys: PropTypes.object.isRequired,
-    groupRenderer: PropTypes.func,
-    isRightSidebar: PropTypes.bool,
-  }
-
+const SidebarItem = class extends Component {
   shouldComponentUpdate(nextProps) {
-    return !(
-      arraysEqual(nextProps.groups, this.props.groups) &&
-      nextProps.keys === this.props.keys &&
-      nextProps.width === this.props.width &&
-      nextProps.groupHeights === this.props.groupHeights &&
-      nextProps.height === this.props.height
-    )
+    return nextProps.elementStyle.height !== this.props.elementStyle.height
   }
 
   renderGroupContent(group, isRightSidebar, groupTitleKey, groupRightTitleKey) {
@@ -33,6 +17,47 @@ export default class Sidebar extends Component {
     } else {
       return _get(group, isRightSidebar ? groupRightTitleKey : groupTitleKey)
     }
+  }
+
+  render() {
+    return (
+      <div
+        key={_get(this.props.group, this.props.groupIdKey)}
+        className={
+          'rct-sidebar-row rct-sidebar-row-' +
+          (this.props.index % 2 === 0 ? 'even' : 'odd')
+        }
+        style={this.props.elementStyle}
+      >
+        {this.renderGroupContent(
+          this.props.group,
+          this.props.isRightSidebar,
+          this.props.groupTitleKey,
+          this.props.groupRightTitleKey
+        )}
+      </div>
+    )
+  }
+}
+
+export default class Sidebar extends Component {
+  static propTypes = {
+    groups: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    groupHeights: PropTypes.array.isRequired,
+    keys: PropTypes.object.isRequired,
+    groupRenderer: PropTypes.func,
+    isRightSidebar: PropTypes.bool
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return !(
+      nextProps.keys === this.props.keys &&
+      nextProps.width === this.props.width &&
+      nextProps.groupHeights === this.props.groupHeights &&
+      nextProps.height === this.props.height
+    )
   }
 
   render() {
@@ -56,20 +81,16 @@ export default class Sidebar extends Component {
       }
 
       return (
-        <div
-          key={_get(group, groupIdKey)}
-          className={
-            'rct-sidebar-row rct-sidebar-row-' + (index % 2 === 0 ? 'even' : 'odd')
-          }
-          style={elementStyle}
-        >
-          {this.renderGroupContent(
-            group,
-            isRightSidebar,
-            groupTitleKey,
-            groupRightTitleKey
-          )}
-        </div>
+        <SidebarItem
+          group={group}
+          index={index}
+          isRightSidebar={isRightSidebar}
+          groupTitleKey={groupTitleKey}
+          groupRightTitleKey={groupRightTitleKey}
+          elementStyle={elementStyle}
+          groupRenderer={this.props.groupRenderer}
+          groupIdKey={groupIdKey}
+        />
       )
     })
 

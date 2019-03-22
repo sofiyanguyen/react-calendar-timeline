@@ -20,7 +20,7 @@ export default class GroupRows extends Component {
       nextProps.canvasWidth === this.props.canvasWidth &&
       nextProps.lineCount === this.props.lineCount &&
       nextProps.groupHeights === this.props.groupHeights &&
-      nextProps.groups === this.props.groups
+      nextProps.groups.length === this.props.groups.length
     )
   }
 
