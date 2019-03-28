@@ -14,13 +14,17 @@ export default class GroupRows extends Component {
     groups: PropTypes.array.isRequired,
     horizontalLineClassNamesForGroup: PropTypes.func,
     onRowContextClick: PropTypes.func.isRequired,
+    newGroupOrder: PropTypes.number
   }
 
   shouldComponentUpdate(nextProps) {
+    this.lastGroupOrder = this.props.newGroupOrder
     return !(
+      nextProps.newGroupOrder === this.props.newGroupOrder &&
       nextProps.canvasWidth === this.props.canvasWidth &&
       nextProps.lineCount === this.props.lineCount &&
       nextProps.groups.length === this.props.groups.length &&
+      nextProps.groupHeights[this.props.newGroupOrder] === this.props.groupHeights[this.props.newGroupOrder] &&
       arraysEqual(nextProps.groupHeights, this.props.groupHeights)
     )
   }

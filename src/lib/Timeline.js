@@ -773,6 +773,7 @@ export default class ReactCalendarTimeline extends Component {
         onRowDoubleClick={this.handleRowDoubleClick}
         horizontalLineClassNamesForGroup={this.props.horizontalLineClassNamesForGroup}
         onRowContextClick={this.handleScrollContextMenu}
+        newGroupOrder={this.state.newGroupOrder}
       />
     )
   }
@@ -816,6 +817,9 @@ export default class ReactCalendarTimeline extends Component {
         itemRenderer={this.props.itemRenderer}
         selected={this.props.selected}
         scrollRef={this.scrollComponent}
+        newGroupOrder={this.state.newGroupOrder}
+        dragTime={this.state.dragTime}
+        draggingItem={this.state.draggingItem}
       />
     )
   }

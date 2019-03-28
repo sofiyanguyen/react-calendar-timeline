@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import PreventClickOnDrag from '../interaction/PreventClickOnDrag'
-import { deepObjectCompare } from '../utility/generic';
 
 class GroupRow extends Component {
   static propTypes = {
