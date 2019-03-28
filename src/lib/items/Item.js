@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import interact from 'interactjs'
 import moment from 'moment'
 
-import { _get, deepObjectCompare } from '../utility/generic'
+import { _get } from '../utility/generic'
 import { composeEvents } from '../utility/events'
 import { defaultItemRenderer } from './defaultItemRenderer'
 import { coordinateToTimeRatio } from '../utility/calendar'

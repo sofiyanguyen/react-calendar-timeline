@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-import { _get } from '../utility/generic'
+import { _get, arraysEqual } from '../utility/generic'
 
 const SidebarItem = class extends Component {
   shouldComponentUpdate(nextProps) {
@@ -54,9 +54,9 @@ export default class Sidebar extends Component {
     return !(
       nextProps.keys === this.props.keys &&
       nextProps.width === this.props.width &&
-      nextProps.groupHeights === this.props.groupHeights &&
-      nextProps.height === this.props.height
-    )
+      nextProps.height === this.props.height &&
+      arraysEqual(nextProps.groupHeights, this.props.groupHeights)
+      )
   }
 
   render() {

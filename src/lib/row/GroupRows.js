@@ -40,6 +40,7 @@ export default class GroupRows extends Component {
       horizontalLineClassNamesForGroup,
       onRowContextClick,
     } = this.props
+    const canvasWidthString = `${canvasWidth}px`
 
     return <div className="rct-horizontal-lines">{groups.map((group, i) => {
       return (<GroupRow
@@ -52,7 +53,7 @@ export default class GroupRows extends Component {
         group={group}
         horizontalLineClassNamesForGroup={horizontalLineClassNamesForGroup}
         style={{
-          width: `${canvasWidth}px`,
+          width: canvasWidthString,
           height: `${groupHeights[i] - 1}px`
         }}
       />)
