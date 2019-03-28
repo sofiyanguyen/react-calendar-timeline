@@ -22,6 +22,7 @@ const SidebarItem = class extends Component {
   render() {
     return (
       <div
+        key={_get(this.props.group, this.props.groupIdKey)}
         className={
           'rct-sidebar-row rct-sidebar-row-' +
           (this.props.index % 2 === 0 ? 'even' : 'odd')
