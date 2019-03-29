@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import interact from 'interactjs'
 import moment from 'moment'
 
-import { _get, deepObjectCompare } from '../utility/generic'
+import { _get } from '../utility/generic'
 import { composeEvents } from '../utility/events'
 import { defaultItemRenderer } from './defaultItemRenderer'
 import { coordinateToTimeRatio } from '../utility/calendar'
@@ -93,31 +93,29 @@ export default class Item extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (nextState.dragging || this.state.dragging) return true
 
-    var shouldUpdate =
-      nextState.dragging !== this.state.dragging ||
-      // nextState.dragTime !== this.state.dragTime ||
-      nextState.dragGroupDelta !== this.state.dragGroupDelta ||
+//      nextState.dragging !== this.state.dragging ||
+//      nextProps.keys !== this.props.keys ||
+      // !deepObjectCompare(nextProps.itemProps, this.props.itemProps) ||
+//      nextProps.canvasTimeStart !== this.props.canvasTimeStart ||
+//      nextProps.canvasTimeEnd !== this.props.canvasTimeEnd ||
+//      nextProps.canvasWidth !== this.props.canvasWidth ||
+//      nextProps.dragSnap !== this.props.dragSnap ||
+//      nextProps.minResizeWidth !== this.props.minResizeWidth ||
+//      nextProps.canChangeGroup !== this.props.canChangeGroup ||
+//      nextProps.canSelect !== this.props.canSelect ||
+//      nextProps.canMove !== this.props.canMove ||
+//      nextProps.canResizeLeft !== this.props.canResizeLeft ||
+//      nextProps.canResizeRight !== this.props.canResizeRight ||
+      //!deepObjectCompare(nextProps.dimensions, this.props.dimensions) ||
+      return (nextProps.dimensions.left !== this.props.dimensions.left ||
+      nextProps.dimensions.top !== this.props.dimensions.top ||
+      nextProps.dimensions.width !== this.props.dimensions.width ||
+      nextProps.dimensions.height !== this.props.dimensions.height ||
       nextState.resizing !== this.state.resizing ||
       nextState.resizeTime !== this.state.resizeTime ||
-      nextProps.keys !== this.props.keys ||
-      !deepObjectCompare(nextProps.itemProps, this.props.itemProps) ||
       nextProps.selected !== this.props.selected ||
-      nextProps.item !== this.props.item ||
-      nextProps.canvasTimeStart !== this.props.canvasTimeStart ||
-      nextProps.canvasTimeEnd !== this.props.canvasTimeEnd ||
-      nextProps.canvasWidth !== this.props.canvasWidth ||
       (nextProps.order ? nextProps.order.index : undefined) !==
-        (this.props.order ? this.props.order.index : undefined) ||
-      nextProps.dragSnap !== this.props.dragSnap ||
-      nextProps.minResizeWidth !== this.props.minResizeWidth ||
-      nextProps.canChangeGroup !== this.props.canChangeGroup ||
-      nextProps.canSelect !== this.props.canSelect ||
-      nextProps.canMove !== this.props.canMove ||
-      nextProps.canResizeLeft !== this.props.canResizeLeft ||
-      nextProps.canResizeRight !== this.props.canResizeRight ||
-      !deepObjectCompare(nextProps.dimensions, this.props.dimensions)
-
-    return shouldUpdate
+        (this.props.order ? this.props.order.index : undefined))
   }
 
   cacheDataFromProps(props) {
@@ -284,7 +282,9 @@ export default class Item extends Component {
               dragGroupDelta = validResult.newGroupIndex - this.props.order.index
             }
           }
-
+          if (this.lastdragTime === dragTime && this.lastdragGroupDelta === dragGroupDelta) return
+          this.lastdragTime = dragTime
+          this.lastdragGroupDelta = dragGroupDelta
           if (this.props.onDrag) {
             this.props.onDrag(
               this.itemId,
@@ -293,11 +293,6 @@ export default class Item extends Component {
               this.props.item
             )
           }
-
-          this.setState({
-            dragTime: dragTime,
-            dragGroupDelta: dragGroupDelta
-          })
         }
       })
       .on('dragend', e => {
@@ -664,8 +659,6 @@ export default class Item extends Component {
       selected: this.props.selected,
       dragging: this.state.dragging,
       dragStart: this.state.dragStart,
-      dragTime: this.state.dragTime,
-      dragGroupDelta: this.state.dragGroupDelta,
       resizing: this.state.resizing,
       resizeEdge: this.state.resizeEdge,
       resizeStart: this.state.resizeStart,

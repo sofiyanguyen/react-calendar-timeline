@@ -168,9 +168,9 @@ export default class ReactCalendarTimeline extends Component {
     minResizeWidth: 20,
     stickyOffset: 0,
     stickyHeader: true,
-    lineHeight: 30,
-    headerLabelGroupHeight: 30,
-    headerLabelHeight: 30,
+    lineHeight: 30, // make the default hight the same as the height as when the row holds a single component, as an optimisation
+    headerLabelGroupHeight: 37.5,
+    headerLabelHeight: 37.5,
     itemHeightRatio: 0.65,
 
     canvasBuffer: 1,
@@ -773,6 +773,7 @@ export default class ReactCalendarTimeline extends Component {
         onRowDoubleClick={this.handleRowDoubleClick}
         horizontalLineClassNamesForGroup={this.props.horizontalLineClassNamesForGroup}
         onRowContextClick={this.handleScrollContextMenu}
+        newGroupOrder={this.state.newGroupOrder}
       />
     )
   }
@@ -816,6 +817,9 @@ export default class ReactCalendarTimeline extends Component {
         itemRenderer={this.props.itemRenderer}
         selected={this.props.selected}
         scrollRef={this.scrollComponent}
+        newGroupOrder={this.state.newGroupOrder}
+        dragTime={this.state.dragTime}
+        draggingItem={this.state.draggingItem}
       />
     )
   }

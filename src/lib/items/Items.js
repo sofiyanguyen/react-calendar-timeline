@@ -64,9 +64,7 @@ export default class Items extends Component {
 
   shouldComponentUpdate(nextProps) {
     return !(
-      arraysEqual(nextProps.groups, this.props.groups) &&
-      arraysEqual(nextProps.items, this.props.items) &&
-      arraysEqual(nextProps.dimensionItems, this.props.dimensionItems) &&
+      // arraysEqual(nextProps.groups, this.props.groups, 'Items.groups') &&
       nextProps.keys === this.props.keys &&
       nextProps.canvasTimeStart === this.props.canvasTimeStart &&
       nextProps.canvasTimeEnd === this.props.canvasTimeEnd &&
@@ -79,7 +77,11 @@ export default class Items extends Component {
       nextProps.canMove === this.props.canMove &&
       nextProps.canResize === this.props.canResize &&
       nextProps.canSelect === this.props.canSelect &&
-      nextProps.topOffset === this.props.topOffset
+      nextProps.topOffset === this.props.topOffset &&
+      nextProps.newGroupOrder === this.props.newGroupOrder &&
+      nextProps.dragTime === this.props.dragTime
+      // arraysEqual(nextProps.items, this.props.items, 'Items.items') &&
+      && arraysEqual(nextProps.dimensionItems, this.props.dimensionItems)
     )
   }
 
