@@ -26,6 +26,14 @@ class Header extends Component {
     scrollHeaderRef: PropTypes.func.isRequired
   }
 
+  shouldComponentUpdate(nextProps){
+    return (
+      nextProps.leftSidebarWidth !== this.props.leftSidebarWidth
+      || nextProps.rightSidebarWidth !== this.props.rightSidebarWidth
+      || nextProps.width !== this.props.width
+    )
+  }
+
   render() {
     const {
       width,

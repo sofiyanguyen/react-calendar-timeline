@@ -92,7 +92,7 @@ export default class Item extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (nextState.dragging || this.state.dragging) return true
-    var shouldUpdate =
+
 //      nextState.dragging !== this.state.dragging ||
 //      nextProps.keys !== this.props.keys ||
       // !deepObjectCompare(nextProps.itemProps, this.props.itemProps) ||
@@ -107,18 +107,15 @@ export default class Item extends Component {
 //      nextProps.canResizeLeft !== this.props.canResizeLeft ||
 //      nextProps.canResizeRight !== this.props.canResizeRight ||
       //!deepObjectCompare(nextProps.dimensions, this.props.dimensions) ||
-      nextProps.dimensions.left !== this.props.dimensions.left ||
+      return (nextProps.dimensions.left !== this.props.dimensions.left ||
       nextProps.dimensions.top !== this.props.dimensions.top ||
       nextProps.dimensions.width !== this.props.dimensions.width ||
       nextProps.dimensions.height !== this.props.dimensions.height ||
       nextState.resizing !== this.state.resizing ||
       nextState.resizeTime !== this.state.resizeTime ||
       nextProps.selected !== this.props.selected ||
-      nextProps.item !== this.props.item ||
       (nextProps.order ? nextProps.order.index : undefined) !==
-        (this.props.order ? this.props.order.index : undefined)
-
-    return shouldUpdate
+        (this.props.order ? this.props.order.index : undefined))
   }
 
   cacheDataFromProps(props) {
