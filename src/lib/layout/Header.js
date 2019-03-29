@@ -31,6 +31,7 @@ class Header extends Component {
       nextProps.leftSidebarWidth !== this.props.leftSidebarWidth
       || nextProps.rightSidebarWidth !== this.props.rightSidebarWidth
       || nextProps.width !== this.props.width
+      || nextProps.minUnit !== this.props.minUnit
     )
   }
 
