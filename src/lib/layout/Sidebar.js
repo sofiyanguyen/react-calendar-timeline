@@ -5,7 +5,8 @@ import { _get, arraysEqual } from '../utility/generic'
 
 const SidebarItem = class extends Component {
   shouldComponentUpdate(nextProps) {
-    return nextProps.elementStyle.height !== this.props.elementStyle.height
+    return (nextProps.elementStyle.height !== this.props.elementStyle.height
+      || _get(nextProps.group, nextProps.groupTitleKey) !== _get(this.props.group, this.props.groupTitleKey))
   }
 
   renderGroupContent(group, isRightSidebar, groupTitleKey, groupRightTitleKey) {

@@ -18,6 +18,8 @@ class GroupRow extends Component {
     return nextProps.style.height !== this.props.style.height
       || nextProps.style.width !== this.props.style.width
       || nextProps.group.length !== this.props.group.length
+      || (nextProps.classNamesForGroup || []).length !== (this.props.classNamesForGroup || []).length
+      || (nextProps.classNamesForGroup || []).join() !== (this.props.classNamesForGroup || []).join()
   }
 
   render() {
