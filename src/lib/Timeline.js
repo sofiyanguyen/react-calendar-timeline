@@ -854,7 +854,8 @@ export default class ReactCalendarTimeline extends Component {
     minUnit,
     timeSteps,
     headerLabelGroupHeight,
-    headerLabelHeight
+    headerLabelHeight,
+    zoom
   ) {
     return (
       <Header
@@ -863,6 +864,7 @@ export default class ReactCalendarTimeline extends Component {
         canvasTimeEnd={canvasTimeEnd}
         canvasWidth={canvasWidth}
         minUnit={minUnit}
+        zoom={zoom}
         timeSteps={timeSteps}
         headerLabelGroupHeight={headerLabelGroupHeight}
         headerLabelHeight={headerLabelHeight}
@@ -1037,7 +1039,8 @@ export default class ReactCalendarTimeline extends Component {
               minUnit,
               timeSteps,
               headerLabelGroupHeight,
-              headerLabelHeight
+              headerLabelHeight,
+              zoom
             )}
             {sidebarWidth > 0 && this.sidebar(height, groupHeights, headerHeight)}
             <div style={{display: 'inline-block'}}>

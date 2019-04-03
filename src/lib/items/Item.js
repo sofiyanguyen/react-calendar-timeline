@@ -611,10 +611,10 @@ export default class Item extends Component {
     const baseStyles = {
       position: 'absolute',
       boxSizing: 'border-box',
-      left: `${dimensions.left}px`,
-      top: `${dimensions.top}px`,
-      width: `${dimensions.width}px`,
-      height: `${dimensions.height}px`,
+      left: dimensions.left,
+      top: dimensions.top,
+      width: dimensions.width,
+      height: dimensions.height,
       lineHeight: `${dimensions.height}px`
     }
 

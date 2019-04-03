@@ -28,10 +28,10 @@ class Header extends Component {
 
   shouldComponentUpdate(nextProps){
     return (
-      nextProps.leftSidebarWidth !== this.props.leftSidebarWidth
+      nextProps.zoom !== this.props.zoom
+      || nextProps.leftSidebarWidth !== this.props.leftSidebarWidth
       || nextProps.rightSidebarWidth !== this.props.rightSidebarWidth
       || nextProps.width !== this.props.width
-      || nextProps.minUnit !== this.props.minUnit
     )
   }
 
