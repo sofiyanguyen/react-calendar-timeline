@@ -93,6 +93,12 @@ class ScrollElement extends Component {
     })
   }
 
+
+  handleDragStart = e => {
+    // RA 04/04/2019 holding the mouse down sometimes caused a drag even to start instead of a pan
+    e.preventDefault();
+  }
+
   handleTouchStart = e => {
     if (e.touches.length === 2) {
       e.preventDefault()
@@ -187,6 +193,7 @@ class ScrollElement extends Component {
         onTouchStart={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}
         onTouchEnd={this.handleTouchEnd}
+        onDragStart={this.handleDragStart}
       >
         {children}
       </div>
