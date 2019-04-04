@@ -499,12 +499,12 @@ export default class ReactCalendarTimeline extends Component {
   ) => {
     this.setState(
       calculateScrollCanvas(
-        visibleTimeStart, 
-        visibleTimeEnd, 
-        forceUpdateDimensions, 
-        items, 
-        groups, 
-        this.props, 
+        visibleTimeStart,
+        visibleTimeEnd,
+        forceUpdateDimensions,
+        items,
+        groups,
+        this.props,
         this.state))
   }
 
@@ -513,6 +513,11 @@ export default class ReactCalendarTimeline extends Component {
   }
 
   changeZoom = (scale, offset = 0.5) => {
+    if  (scale < 0) {
+      // RA 04/04/2019 a negative scale value was being used to zoom in,
+      // but instead we should be using a fraction (as scale is multiplied, not added)
+      scale = -1 / scale
+    }
     const { minZoom, maxZoom } = this.props
     const oldZoom = this.state.visibleTimeEnd - this.state.visibleTimeStart
     const newZoom = Math.min(
