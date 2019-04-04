@@ -75,6 +75,7 @@ export default class Sidebar extends Component {
     let groupLines = this.props.groups.map((group, index) => {
       const elementStyle = {
         height: groupHeights[index] - 1,
+        width,
         lineHeight: `${groupHeights[index] - 1}px`
       }
 
