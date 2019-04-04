@@ -6,6 +6,7 @@ import { _get, arraysEqual } from '../utility/generic'
 const SidebarItem = class extends Component {
   shouldComponentUpdate(nextProps) {
     return (nextProps.elementStyle.height !== this.props.elementStyle.height
+      || nextProps.elementStyle.width !== this.props.elementStyle.width
       || _get(nextProps.group, nextProps.groupTitleKey) !== _get(this.props.group, this.props.groupTitleKey))
   }
 
@@ -67,17 +68,14 @@ export default class Sidebar extends Component {
     const { groupIdKey, groupTitleKey, groupRightTitleKey } = this.props.keys
 
     const sidebarStyle = {
-      width: `${width}px`,
-      height: `${height}px`
-    }
-
-    const groupsStyle = {
-      width: `${width}px`
+      width,
+      height
     }
 
     let groupLines = this.props.groups.map((group, index) => {
       const elementStyle = {
-        height: `${groupHeights[index] - 1}px`,
+        height: groupHeights[index] - 1,
+        width,
         lineHeight: `${groupHeights[index] - 1}px`
       }
 
@@ -101,7 +99,7 @@ export default class Sidebar extends Component {
         className={'rct-sidebar' + (isRightSidebar ? ' rct-sidebar-right' : '')}
         style={sidebarStyle}
       >
-        <div style={groupsStyle}>{groupLines}</div>
+        <div style={sidebarStyle}>{groupLines}</div>
       </div>
     )
   }

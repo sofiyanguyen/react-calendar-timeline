@@ -22,6 +22,10 @@ class ScrollElement extends Component {
     }
   }
 
+  componentDidMount(){
+    this.scrollComponent.addEventListener('wheel', this.handleWheel, {passive:false})
+  }
+
   refHandler = el => {
     this.scrollComponent = el
     this.props.scrollRef(el)
@@ -87,6 +91,12 @@ class ScrollElement extends Component {
     this.setState({
       isDragging: false
     })
+  }
+
+
+  handleDragStart = e => {
+    // RA 04/04/2019 holding the mouse down sometimes caused a drag even to start instead of a pan
+    e.preventDefault();
   }
 
   handleTouchStart = e => {
@@ -176,7 +186,6 @@ class ScrollElement extends Component {
         className="rct-scroll"
         style={scrollComponentStyle}
         onScroll={this.handleScroll}
-        onWheel={this.handleWheel}
         onMouseDown={this.handleMouseDown}
         onMouseMove={this.handleMouseMove}
         onMouseUp={this.handleMouseUp}
@@ -184,6 +193,7 @@ class ScrollElement extends Component {
         onTouchStart={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}
         onTouchEnd={this.handleTouchEnd}
+        onDragStart={this.handleDragStart}
       >
         {children}
       </div>
