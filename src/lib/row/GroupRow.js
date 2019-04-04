@@ -18,8 +18,8 @@ class GroupRow extends Component {
     return nextProps.style.height !== this.props.style.height
       || nextProps.style.width !== this.props.style.width
       || nextProps.group.length !== this.props.group.length
-      || (nextProps.classNamesForGroup || []).length !== (this.props.classNamesForGroup || []).length
-      || (nextProps.classNamesForGroup || []).join() !== (this.props.classNamesForGroup || []).join()
+      || nextProps.horizontalLineClassNamesForGroup !== this.props.horizontalLineClassNamesForGroup
+      || (nextProps.horizontalLineClassNamesForGroup && this.props.horizontalLineClassNamesForGroup && (nextProps.horizontalLineClassNamesForGroup(nextProps.group) || []).join() !== (this.props.horizontalLineClassNamesForGroup(this.props.group) || []).join())
   }
 
   render() {
