@@ -93,7 +93,7 @@ export default class Sidebar extends Component {
           elementStyle={elementStyle}
           groupRenderer={this.props.groupRenderer}
           groupIdKey={groupIdKey}
-          forceRefreshIndex={this.state.forceRefreshIndex}
+          forceRefreshIndex={this.props.forceRefreshIndex}
         />
       )
     })
