@@ -24,8 +24,6 @@ const SidebarItem = class extends Component {
   }
 
   render() {
-    console.log('SidebarItem.render')
-
     return (
       <div
         key={_get(this.props.group, this.props.groupIdKey)}
@@ -58,12 +56,7 @@ export default class Sidebar extends Component {
     forceRefreshIndex:PropTypes.number
   }
 
-  componentWillMount(){
-    console.log('sidebar mount')
-  }
-
   shouldComponentUpdate(nextProps) {
-    console.log('Sidebar.nextProps', nextProps)
     return !(
       nextProps.forceRefreshIndex === this.props.forceRefreshIndex &&
       nextProps.keys === this.props.keys &&
@@ -74,8 +67,6 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    console.log('Sidebar.render')
-
     const { width, groupHeights, height, isRightSidebar } = this.props
 
     const { groupIdKey, groupTitleKey, groupRightTitleKey } = this.props.keys

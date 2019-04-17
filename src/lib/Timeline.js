@@ -340,13 +340,6 @@ export default class ReactCalendarTimeline extends Component {
     this.lastTouchDistance = null
   }
 
-  UNSAFE_componentWillReceiveProps(){
-    console.log('timeline.UNSAFE_componentWillReceiveProps')
-    this.setState({
-      forceRefreshIndex: this.state.forceRefreshIndex + 1
-    })
-  }
-
   componentWillUnmount() {
     if (this.props.resizeDetector && this.props.resizeDetector.addListener) {
       this.props.resizeDetector.removeListener(this)
@@ -396,7 +389,7 @@ export default class ReactCalendarTimeline extends Component {
           nextProps,
           prevState))
     }
-    console.log({derivedState})
+    // updates to the timeline props should flush a re-render down to child components
     derivedState.forceRefreshIndex = prevState.forceRefreshIndex + 1
 
     return derivedState
@@ -902,7 +895,6 @@ export default class ReactCalendarTimeline extends Component {
   }
 
   sidebar(height, groupHeights) {
-    console.log('sidebar()')
     const { sidebarWidth } = this.props
     return (
       sidebarWidth &&
@@ -986,7 +978,6 @@ export default class ReactCalendarTimeline extends Component {
   }
 
   render() {
-    console.log("timeline.render")
     const {
       items,
       groups,
