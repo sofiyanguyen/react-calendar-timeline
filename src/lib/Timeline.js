@@ -899,6 +899,7 @@ export default class ReactCalendarTimeline extends Component {
   }
 
   sidebar(height, groupHeights) {
+    console.log('sidebar()')
     const { sidebarWidth } = this.props
     return (
       sidebarWidth &&
@@ -1040,6 +1041,7 @@ export default class ReactCalendarTimeline extends Component {
         canvasTimeStart={canvasTimeStart}
         canvasTimeEnd={canvasTimeEnd}
         canvasWidth={canvasWidth}
+        forceRefreshIndex={this.state.forceRefreshIndex}
       >
         <TimelineMarkersProvider>
           <div

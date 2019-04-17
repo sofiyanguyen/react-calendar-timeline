@@ -77,6 +77,7 @@ export class TimelineStateProvider extends React.Component {
   }
 
   render() {
+    console.log('timelinestateprovider.render')
     return (
       <Provider value={this.state.timelineContext}>
         {this.props.children}
