@@ -54,7 +54,8 @@ export default class Sidebar extends Component {
     groupHeights: PropTypes.array.isRequired,
     keys: PropTypes.object.isRequired,
     groupRenderer: PropTypes.func,
-    isRightSidebar: PropTypes.bool
+    isRightSidebar: PropTypes.bool,
+    forceRefreshIndex:PropTypes.number
   }
 
   componentWillMount(){
