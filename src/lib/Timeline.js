@@ -340,8 +340,8 @@ export default class ReactCalendarTimeline extends Component {
     this.lastTouchDistance = null
   }
 
-  componentWillReceiveProps(){
-    console.log('timeline.componentWillReceiveProps')
+  UNSAFE_componentWillReceiveProps(){
+    console.log('timeline.UNSAFE_componentWillReceiveProps')
     this.setState({
       forceRefreshIndex: this.state.forceRefreshIndex + 1
     })
