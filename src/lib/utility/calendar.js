@@ -271,9 +271,9 @@ export function collision(a, b, lineHeight, collisionPadding = EPSILON) {
 function groupStack(lineHeight, item, group, groupHeight, totalHeight, i) {
   // calculate non-overlapping positions
   let curHeight = groupHeight
-  let verticalMargin = lineHeight - item.dimensions.height
+  let verticalMargin = 0//lineHeight - item.dimensions.height
   if (item.dimensions.stack && item.dimensions.top === null) {
-    item.dimensions.top = totalHeight + verticalMargin
+    item.dimensions.top = totalHeight + verticalMargin + (lineHeight - item.dimensions.height) / 2
     curHeight = Math.max(curHeight, lineHeight)
     do {
       var collidingItem = null
@@ -294,10 +294,10 @@ function groupStack(lineHeight, item, group, groupHeight, totalHeight, i) {
 
       if (collidingItem != null) {
         // There is a collision. Reposition the items above the colliding element
-        item.dimensions.top = collidingItem.dimensions.top + lineHeight
+        item.dimensions.top = collidingItem.dimensions.top + lineHeight - (lineHeight - item.dimensions.height) / 2
         curHeight = Math.max(
           curHeight,
-          item.dimensions.top + item.dimensions.height - totalHeight
+          item.dimensions.top + item.dimensions.height - totalHeight +  (lineHeight - item.dimensions.height) / 2
         )
       }
     } while (collidingItem)

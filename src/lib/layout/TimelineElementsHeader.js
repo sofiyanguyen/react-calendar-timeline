@@ -89,16 +89,16 @@ export default class TimelineElementsHeader extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    const willUpate =
-      nextProps.canvasTimeStart != this.props.canvasTimeStart ||
-      nextProps.canvasTimeEnd != this.props.canvasTimeEnd ||
-      nextProps.width != this.props.width ||
-      nextProps.canvasWidth != this.props.canvasWidth ||
-      nextProps.subHeaderLabelFormats != this.props.subHeaderLabelFormats ||
-      nextProps.headerLabelFormats != this.props.headerLabelFormats ||
-      nextProps.hasRightSidebar != this.props.hasRightSidebar
-
-    return willUpate
+    return (
+      nextProps.canvasTimeStart !== this.props.canvasTimeStart ||
+      nextProps.canvasTimeEnd !== this.props.canvasTimeEnd ||
+      nextProps.width !== this.props.width ||
+      nextProps.canvasWidth !== this.props.canvasWidth ||
+      nextProps.subHeaderLabelFormats !== this.props.subHeaderLabelFormats ||
+      nextProps.headerLabelFormats !== this.props.headerLabelFormats ||
+      nextProps.hasRightSidebar !== this.props.hasRightSidebar ||
+      nextProps.minUnit !== this.props.minUnit
+    )
   }
 
   render() {

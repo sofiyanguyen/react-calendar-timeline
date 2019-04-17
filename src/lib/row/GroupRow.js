@@ -14,6 +14,14 @@ class GroupRow extends Component {
     horizontalLineClassNamesForGroup: PropTypes.func
   }
 
+  shouldComponentUpdate(nextProps) {
+    return nextProps.style.height !== this.props.style.height
+      || nextProps.style.width !== this.props.style.width
+      || nextProps.group.length !== this.props.group.length
+      || nextProps.horizontalLineClassNamesForGroup !== this.props.horizontalLineClassNamesForGroup
+      || (nextProps.horizontalLineClassNamesForGroup && this.props.horizontalLineClassNamesForGroup && (nextProps.horizontalLineClassNamesForGroup(nextProps.group) || []).join() !== (this.props.horizontalLineClassNamesForGroup(this.props.group) || []).join())
+  }
+
   render() {
     const {
       onContextMenu,

@@ -168,9 +168,9 @@ export default class ReactCalendarTimeline extends Component {
     minResizeWidth: 20,
     stickyOffset: 0,
     stickyHeader: true,
-    lineHeight: 30,
-    headerLabelGroupHeight: 30,
-    headerLabelHeight: 30,
+    lineHeight: 30, // make the default hight the same as the height as when the row holds a single component, as an optimisation
+    headerLabelGroupHeight: 37.5,
+    headerLabelHeight: 37.5,
     itemHeightRatio: 0.65,
 
     canvasBuffer: 1,
@@ -303,7 +303,9 @@ export default class ReactCalendarTimeline extends Component {
       dragGroupTitle: null,
       resizeTime: null,
       resizingItem: null,
-      resizingEdge: null
+      resizingEdge: null,
+
+      forceRefreshIndex: 0
     }
 
     const { dimensionItems, height, groupHeights, groupTops } = stackItems(
@@ -387,6 +389,8 @@ export default class ReactCalendarTimeline extends Component {
           nextProps,
           prevState))
     }
+    // updates to the timeline props should flush a re-render down to child components
+    derivedState.forceRefreshIndex = prevState.forceRefreshIndex + 1
 
     return derivedState
   }
@@ -499,12 +503,12 @@ export default class ReactCalendarTimeline extends Component {
   ) => {
     this.setState(
       calculateScrollCanvas(
-        visibleTimeStart, 
-        visibleTimeEnd, 
-        forceUpdateDimensions, 
-        items, 
-        groups, 
-        this.props, 
+        visibleTimeStart,
+        visibleTimeEnd,
+        forceUpdateDimensions,
+        items,
+        groups,
+        this.props,
         this.state))
   }
 
@@ -513,6 +517,11 @@ export default class ReactCalendarTimeline extends Component {
   }
 
   changeZoom = (scale, offset = 0.5) => {
+    if  (scale < 0) {
+      // RA 04/04/2019 a negative scale value was being used to zoom in,
+      // but instead we should be using a fraction (as scale is multiplied, not added)
+      scale = -1 / scale
+    }
     const { minZoom, maxZoom } = this.props
     const oldZoom = this.state.visibleTimeEnd - this.state.visibleTimeStart
     const newZoom = Math.min(
@@ -773,6 +782,7 @@ export default class ReactCalendarTimeline extends Component {
         onRowDoubleClick={this.handleRowDoubleClick}
         horizontalLineClassNamesForGroup={this.props.horizontalLineClassNamesForGroup}
         onRowContextClick={this.handleScrollContextMenu}
+        newGroupOrder={this.state.newGroupOrder}
       />
     )
   }
@@ -816,6 +826,9 @@ export default class ReactCalendarTimeline extends Component {
         itemRenderer={this.props.itemRenderer}
         selected={this.props.selected}
         scrollRef={this.scrollComponent}
+        newGroupOrder={this.state.newGroupOrder}
+        dragTime={this.state.dragTime}
+        draggingItem={this.state.draggingItem}
       />
     )
   }
@@ -850,7 +863,8 @@ export default class ReactCalendarTimeline extends Component {
     minUnit,
     timeSteps,
     headerLabelGroupHeight,
-    headerLabelHeight
+    headerLabelHeight,
+    zoom
   ) {
     return (
       <Header
@@ -859,6 +873,7 @@ export default class ReactCalendarTimeline extends Component {
         canvasTimeEnd={canvasTimeEnd}
         canvasWidth={canvasWidth}
         minUnit={minUnit}
+        zoom={zoom}
         timeSteps={timeSteps}
         headerLabelGroupHeight={headerLabelGroupHeight}
         headerLabelHeight={headerLabelHeight}
@@ -874,6 +889,7 @@ export default class ReactCalendarTimeline extends Component {
         rightSidebarWidth={this.props.rightSidebarWidth}
         leftSidebarHeader={this.props.sidebarContent}
         rightSidebarHeader={this.props.rightSidebarContent}
+        forceRefreshIndex={this.state.forceRefreshIndex}
       />
     )
   }
@@ -881,7 +897,7 @@ export default class ReactCalendarTimeline extends Component {
   sidebar(height, groupHeights) {
     const { sidebarWidth } = this.props
     return (
-      sidebarWidth && 
+      sidebarWidth &&
       <Sidebar
         groups={this.props.groups}
         groupRenderer={this.props.groupRenderer}
@@ -889,7 +905,7 @@ export default class ReactCalendarTimeline extends Component {
         width={sidebarWidth}
         groupHeights={groupHeights}
         height={height}
-
+        forceRefreshIndex={this.state.forceRefreshIndex}
       />
     )
   }
@@ -906,7 +922,7 @@ export default class ReactCalendarTimeline extends Component {
         width={rightSidebarWidth}
         groupHeights={groupHeights}
         height={height}
-
+        forceRefreshIndex={this.state.forceRefreshIndex}
       />
     )
   }
@@ -1019,6 +1035,7 @@ export default class ReactCalendarTimeline extends Component {
         canvasTimeStart={canvasTimeStart}
         canvasTimeEnd={canvasTimeEnd}
         canvasWidth={canvasWidth}
+        forceRefreshIndex={this.state.forceRefreshIndex}
       >
         <TimelineMarkersProvider>
           <div
@@ -1033,7 +1050,8 @@ export default class ReactCalendarTimeline extends Component {
               minUnit,
               timeSteps,
               headerLabelGroupHeight,
-              headerLabelHeight
+              headerLabelHeight,
+              zoom
             )}
             {sidebarWidth > 0 && this.sidebar(height, groupHeights, headerHeight)}
             <div style={{display: 'inline-block'}}>
