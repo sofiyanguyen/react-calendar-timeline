@@ -396,6 +396,8 @@ export default class ReactCalendarTimeline extends Component {
           nextProps,
           prevState))
     }
+    console.log({derivedState})
+    derivedState.forceRefreshIndex = prevState.forceRefreshIndex + 1
 
     return derivedState
   }
