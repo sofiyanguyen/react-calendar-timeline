@@ -57,7 +57,12 @@ export default class Sidebar extends Component {
     isRightSidebar: PropTypes.bool
   }
 
+  componentWillMount(){
+    console.log('sidebar mount')
+  }
+
   shouldComponentUpdate(nextProps) {
+    console.log('Sidebar.nextProps', nextProps)
     return !(
       nextProps.forceRefreshIndex === this.props.forceRefreshIndex &&
       nextProps.keys === this.props.keys &&
