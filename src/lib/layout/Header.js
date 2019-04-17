@@ -39,6 +39,7 @@ class Header extends Component {
   }
 
   render() {
+    console.log('Header.render')
     const {
       width,
       stickyOffset,

@@ -24,6 +24,8 @@ const SidebarItem = class extends Component {
   }
 
   render() {
+    console.log('SidebarItem.render')
+
     return (
       <div
         key={_get(this.props.group, this.props.groupIdKey)}
@@ -66,6 +68,8 @@ export default class Sidebar extends Component {
   }
 
   render() {
+    console.log('Sidebar.render')
+
     const { width, groupHeights, height, isRightSidebar } = this.props
 
     const { groupIdKey, groupTitleKey, groupRightTitleKey } = this.props.keys

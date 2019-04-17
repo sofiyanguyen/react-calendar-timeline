@@ -368,7 +368,7 @@ export default class ReactCalendarTimeline extends Component {
     let derivedState = {items, groups, canvasBuffer: Math.max(1, canvasBuffer) * 2 + 1}
 
     // if the items or groups have changed we must re-render
-    const forceUpdate = true;//items !== prevState.items || groups !== prevState.groups
+    const forceUpdate = items !== prevState.items || groups !== prevState.groups
 
     // We are a controlled component
     if (visibleTimeStart && visibleTimeEnd) {
@@ -982,6 +982,7 @@ export default class ReactCalendarTimeline extends Component {
   }
 
   render() {
+    console.log("timeline.render")
     const {
       items,
       groups,
