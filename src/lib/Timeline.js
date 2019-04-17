@@ -341,6 +341,7 @@ export default class ReactCalendarTimeline extends Component {
   }
 
   componentWillReceiveProps(){
+    console.log('timeline.componentWillReceiveProps')
     this.setState({
       forceRefreshIndex: this.state.forceRefreshIndex + 1
     })
