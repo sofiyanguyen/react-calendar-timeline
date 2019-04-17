@@ -303,7 +303,9 @@ export default class ReactCalendarTimeline extends Component {
       dragGroupTitle: null,
       resizeTime: null,
       resizingItem: null,
-      resizingEdge: null
+      resizingEdge: null,
+
+      forceRefreshIndex: 0
     }
 
     const { dimensionItems, height, groupHeights, groupTops } = stackItems(
@@ -336,6 +338,12 @@ export default class ReactCalendarTimeline extends Component {
     windowResizeDetector.addListener(this)
 
     this.lastTouchDistance = null
+  }
+
+  componentWillReceiveProps(){
+    this.setState({
+      forceRefreshIndex: this.state.forceRefreshIndex + 1
+    })
   }
 
   componentWillUnmount() {
@@ -885,6 +893,7 @@ export default class ReactCalendarTimeline extends Component {
         rightSidebarWidth={this.props.rightSidebarWidth}
         leftSidebarHeader={this.props.sidebarContent}
         rightSidebarHeader={this.props.rightSidebarContent}
+        forceRefreshIndex={this.state.forceRefreshIndex}
       />
     )
   }
@@ -900,7 +909,7 @@ export default class ReactCalendarTimeline extends Component {
         width={sidebarWidth}
         groupHeights={groupHeights}
         height={height}
-
+        forceRefreshIndex={this.state.forceRefreshIndex}
       />
     )
   }

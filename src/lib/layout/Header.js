@@ -27,13 +27,15 @@ class Header extends Component {
   }
 
   shouldComponentUpdate(nextProps){
+    return true
+    /*
     return (
       nextProps.zoom !== this.props.zoom
       || nextProps.leftSidebarWidth !== this.props.leftSidebarWidth
       || nextProps.rightSidebarWidth !== this.props.rightSidebarWidth
       || nextProps.width !== this.props.width
       || nextProps.leftSidebarHeader !== this.props.leftSidebarHeader
-    )
+    )*/
   }
 
   render() {
