@@ -368,7 +368,7 @@ export default class ReactCalendarTimeline extends Component {
     let derivedState = {items, groups, canvasBuffer: Math.max(1, canvasBuffer) * 2 + 1}
 
     // if the items or groups have changed we must re-render
-    const forceUpdate = items !== prevState.items || groups !== prevState.groups
+    const forceUpdate = true;//items !== prevState.items || groups !== prevState.groups
 
     // We are a controlled component
     if (visibleTimeStart && visibleTimeEnd) {
@@ -901,7 +901,7 @@ export default class ReactCalendarTimeline extends Component {
   sidebar(height, groupHeights) {
     const { sidebarWidth } = this.props
     return (
-      sidebarWidth && 
+      sidebarWidth &&
       <Sidebar
         groups={this.props.groups}
         groupRenderer={this.props.groupRenderer}
@@ -926,7 +926,7 @@ export default class ReactCalendarTimeline extends Component {
         width={rightSidebarWidth}
         groupHeights={groupHeights}
         height={height}
-
+        forceRefreshIndex={this.state.forceRefreshIndex}
       />
     )
   }
