@@ -26,13 +26,14 @@ class Header extends Component {
     scrollHeaderRef: PropTypes.func.isRequired
   }
 
-  shouldComponentUpdate(nextProps){
+  shouldComponentUpdate(nextProps) {
     return (
-      nextProps.zoom !== this.props.zoom
-      || nextProps.leftSidebarWidth !== this.props.leftSidebarWidth
-      || nextProps.rightSidebarWidth !== this.props.rightSidebarWidth
-      || nextProps.width !== this.props.width
-      || nextProps.leftSidebarHeader !== this.props.leftSidebarHeader
+      nextProps.forceRefreshIndex !== this.props.forceRefreshIndex ||
+      nextProps.zoom !== this.props.zoom ||
+      nextProps.leftSidebarWidth !== this.props.leftSidebarWidth ||
+      nextProps.rightSidebarWidth !== this.props.rightSidebarWidth ||
+      nextProps.width !== this.props.width ||
+      nextProps.leftSidebarHeader !== this.props.leftSidebarHeader
     )
   }
 
@@ -66,23 +67,22 @@ class Header extends Component {
 
     const headerClass = stickyHeader ? 'header-sticky' : ''
 
-    const leftSidebar = leftSidebarHeader && leftSidebarWidth > 0 && (
-      <div
-        className="rct-sidebar-header"
-        style={{ width: leftSidebarWidth }}
-      >
-        {leftSidebarHeader}
-      </div>
-    )
+    const leftSidebar = leftSidebarHeader &&
+      leftSidebarWidth > 0 && (
+        <div className="rct-sidebar-header" style={{ width: leftSidebarWidth }}>
+          {leftSidebarHeader}
+        </div>
+      )
 
-    const rightSidebar = rightSidebarHeader && rightSidebarWidth > 0 && (
-      <div
-        className="rct-sidebar-header rct-sidebar-right"
-        style={{ width: rightSidebarWidth }}
-      >
-        {rightSidebarHeader}
-      </div>
-    )
+    const rightSidebar = rightSidebarHeader &&
+      rightSidebarWidth > 0 && (
+        <div
+          className="rct-sidebar-header rct-sidebar-right"
+          style={{ width: rightSidebarWidth }}
+        >
+          {rightSidebarHeader}
+        </div>
+      )
 
     return (
       <div
@@ -108,7 +108,6 @@ class Header extends Component {
             headerLabelGroupHeight={headerLabelGroupHeight}
             headerLabelHeight={headerLabelHeight}
             scrollHeaderRef={scrollHeaderRef}
-
           />
         </div>
         {rightSidebar}

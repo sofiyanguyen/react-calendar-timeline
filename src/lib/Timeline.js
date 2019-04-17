@@ -303,7 +303,9 @@ export default class ReactCalendarTimeline extends Component {
       dragGroupTitle: null,
       resizeTime: null,
       resizingItem: null,
-      resizingEdge: null
+      resizingEdge: null,
+
+      forceRefreshIndex: 0
     }
 
     const { dimensionItems, height, groupHeights, groupTops } = stackItems(
@@ -387,6 +389,8 @@ export default class ReactCalendarTimeline extends Component {
           nextProps,
           prevState))
     }
+    // updates to the timeline props should flush a re-render down to child components
+    derivedState.forceRefreshIndex = prevState.forceRefreshIndex + 1
 
     return derivedState
   }
@@ -885,6 +889,7 @@ export default class ReactCalendarTimeline extends Component {
         rightSidebarWidth={this.props.rightSidebarWidth}
         leftSidebarHeader={this.props.sidebarContent}
         rightSidebarHeader={this.props.rightSidebarContent}
+        forceRefreshIndex={this.state.forceRefreshIndex}
       />
     )
   }
@@ -892,7 +897,7 @@ export default class ReactCalendarTimeline extends Component {
   sidebar(height, groupHeights) {
     const { sidebarWidth } = this.props
     return (
-      sidebarWidth && 
+      sidebarWidth &&
       <Sidebar
         groups={this.props.groups}
         groupRenderer={this.props.groupRenderer}
@@ -900,7 +905,7 @@ export default class ReactCalendarTimeline extends Component {
         width={sidebarWidth}
         groupHeights={groupHeights}
         height={height}
-
+        forceRefreshIndex={this.state.forceRefreshIndex}
       />
     )
   }
@@ -917,7 +922,7 @@ export default class ReactCalendarTimeline extends Component {
         width={rightSidebarWidth}
         groupHeights={groupHeights}
         height={height}
-
+        forceRefreshIndex={this.state.forceRefreshIndex}
       />
     )
   }
@@ -1030,6 +1035,7 @@ export default class ReactCalendarTimeline extends Component {
         canvasTimeStart={canvasTimeStart}
         canvasTimeEnd={canvasTimeEnd}
         canvasWidth={canvasWidth}
+        forceRefreshIndex={this.state.forceRefreshIndex}
       >
         <TimelineMarkersProvider>
           <div

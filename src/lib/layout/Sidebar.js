@@ -5,7 +5,9 @@ import { _get, arraysEqual } from '../utility/generic'
 
 const SidebarItem = class extends Component {
   shouldComponentUpdate(nextProps) {
-    return (nextProps.elementStyle.height !== this.props.elementStyle.height
+    return (
+      nextProps.forceRefreshIndex !== this.props.forceRefreshIndex
+      || nextProps.elementStyle.height !== this.props.elementStyle.height
       || nextProps.elementStyle.width !== this.props.elementStyle.width
       || _get(nextProps.group, nextProps.groupTitleKey) !== _get(this.props.group, this.props.groupTitleKey))
   }
@@ -50,11 +52,13 @@ export default class Sidebar extends Component {
     groupHeights: PropTypes.array.isRequired,
     keys: PropTypes.object.isRequired,
     groupRenderer: PropTypes.func,
-    isRightSidebar: PropTypes.bool
+    isRightSidebar: PropTypes.bool,
+    forceRefreshIndex:PropTypes.number
   }
 
   shouldComponentUpdate(nextProps) {
     return !(
+      nextProps.forceRefreshIndex === this.props.forceRefreshIndex &&
       nextProps.keys === this.props.keys &&
       nextProps.width === this.props.width &&
       nextProps.height === this.props.height &&
@@ -90,6 +94,7 @@ export default class Sidebar extends Component {
           elementStyle={elementStyle}
           groupRenderer={this.props.groupRenderer}
           groupIdKey={groupIdKey}
+          forceRefreshIndex={this.props.forceRefreshIndex}
         />
       )
     })
