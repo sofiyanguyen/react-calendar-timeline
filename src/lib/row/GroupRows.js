@@ -44,12 +44,12 @@ export default class GroupRows extends Component {
     return <div className="rct-horizontal-lines">{groups.map((group, i) => {
       return (<GroupRow
         clickTolerance={clickTolerance}
-        onContextMenu={evt => onRowContextClick(evt, i, groups[i])}
-        onClick={evt => onRowClick(evt, i, groups[i])}
-        onDoubleClick={evt => onRowDoubleClick(evt, i, groups[i])}
+        onContextMenu={evt => onRowContextClick(evt, i, group)}
+        onClick={evt => onRowClick(evt, i, group)}
+        onDoubleClick={evt => onRowDoubleClick(evt, i, group)}
         key={`horizontal-line-${i}`}
         isEvenRow={i % 2 === 0}
-        group={groups[i]}
+        group={group}
         horizontalLineClassNamesForGroup={horizontalLineClassNamesForGroup}
         style={{
           width: canvasWidth,
