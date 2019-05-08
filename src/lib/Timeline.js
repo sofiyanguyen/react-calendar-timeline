@@ -726,14 +726,14 @@ export default class ReactCalendarTimeline extends Component {
     )
   }
 
-  handleRowClick = (e, rowIndex) => {
+  handleRowClick = (e, rowIndex, group) => {
     // shouldnt this be handled by the user, as far as when to deselect an item?
     if (this.state.selectedItem) {
       this.selectItem(null)
     }
-    
+
     if (this.props.onCanvasClick == null) return
-    const group = this.props.groups[rowIndex];
+
     const time = this.getTimeFromRowClickEvent(e)
 
     const groupId = _get(
@@ -743,10 +743,9 @@ export default class ReactCalendarTimeline extends Component {
     this.props.onCanvasClick(groupId, time, e, group)
   }
 
-  handleRowDoubleClick = (e, rowIndex) => {
+  handleRowDoubleClick = (e, rowIndex, group) => {
     if (this.props.onCanvasDoubleClick == null) return
 
-    const group = this.props.groups[rowIndex];
     const time = this.getTimeFromRowClickEvent(e)
     const groupId = _get(
       group,
@@ -755,9 +754,9 @@ export default class ReactCalendarTimeline extends Component {
     this.props.onCanvasDoubleClick(groupId, time, e, group)
   }
 
-  handleScrollContextMenu = (e, rowIndex) => {
+  handleScrollContextMenu = (e, rowIndex, group) => {
     if (this.props.onCanvasContextMenu == null) return
-    const group = this.props.groups[rowIndex];
+
     const timePosition = this.getTimeFromRowClickEvent(e)
 
     const groupId = _get(
