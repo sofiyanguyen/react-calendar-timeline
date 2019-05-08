@@ -47,7 +47,7 @@ export default class GroupRows extends Component {
         onContextMenu={evt => onRowContextClick(evt, i, group)}
         onClick={evt => onRowClick(evt, i, group)}
         onDoubleClick={evt => onRowDoubleClick(evt, i, group)}
-        key={`horizontal-line-${i}`}
+        key={`horizontal-line-${group.id}`}
         isEvenRow={i % 2 === 0}
         group={group}
         horizontalLineClassNamesForGroup={horizontalLineClassNamesForGroup}
