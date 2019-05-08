@@ -46,12 +46,12 @@ export default class GroupRows extends Component {
       return (<GroupRow
         newGroupOrder={newGroupOrder}
         clickTolerance={clickTolerance}
-        onContextMenu={evt => onRowContextClick(evt, i, groups[i])}
-        onClick={evt => onRowClick(evt, i, groups[i])}
-        onDoubleClick={evt => onRowDoubleClick(evt, i, groups[i])}
+        onContextMenu={evt => onRowContextClick(evt, i)}
+        onClick={evt => onRowClick(evt, i)}
+        onDoubleClick={evt => onRowDoubleClick(evt, i)}
         key={`horizontal-line-${i}`}
         isEvenRow={i % 2 === 0}
-        group={groups[i]}
+        group={group}
         horizontalLineClassNamesForGroup={horizontalLineClassNamesForGroup}
         style={{
           width: canvasWidth,
