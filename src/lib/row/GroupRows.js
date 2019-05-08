@@ -39,12 +39,10 @@ export default class GroupRows extends Component {
       groups,
       horizontalLineClassNamesForGroup,
       onRowContextClick,
-      newGroupOrder
     } = this.props
 
     return <div className="rct-horizontal-lines">{groups.map((group, i) => {
       return (<GroupRow
-        newGroupOrder={newGroupOrder}
         clickTolerance={clickTolerance}
         onContextMenu={evt => onRowContextClick(evt, i)}
         onClick={evt => onRowClick(evt, i)}
