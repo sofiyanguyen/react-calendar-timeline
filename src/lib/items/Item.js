@@ -114,6 +114,7 @@ export default class Item extends Component {
       nextState.resizing !== this.state.resizing ||
       nextState.resizeTime !== this.state.resizeTime ||
       nextProps.selected !== this.props.selected ||
+      nextProps.item.title !== this.props.item.title ||
       (nextProps.order ? nextProps.order.index : undefined) !==
         (this.props.order ? this.props.order.index : undefined))
   }
