@@ -11,11 +11,13 @@ class GroupRow extends Component {
     style: PropTypes.object.isRequired,
     clickTolerance: PropTypes.number.isRequired,
     group: PropTypes.object.isRequired,
-    horizontalLineClassNamesForGroup: PropTypes.func
+    horizontalLineClassNamesForGroup: PropTypes.func,
+    newGroupOrder: PropTypes.number
   }
 
   shouldComponentUpdate(nextProps) {
     return nextProps.style.height !== this.props.style.height
+      || nextProps.newGroupOrder !== this.props.newGroupOrder
       || nextProps.style.width !== this.props.style.width
       || nextProps.group.length !== this.props.group.length
       || nextProps.horizontalLineClassNamesForGroup !== this.props.horizontalLineClassNamesForGroup
