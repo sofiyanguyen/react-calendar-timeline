@@ -92,34 +92,22 @@ export default class Item extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (nextState.dragging || this.state.dragging) return true
-
-//      nextState.dragging !== this.state.dragging ||
-//      nextProps.keys !== this.props.keys ||
-      // !deepObjectCompare(nextProps.itemProps, this.props.itemProps) ||
-//      nextProps.canvasTimeStart !== this.props.canvasTimeStart ||
-//      nextProps.canvasTimeEnd !== this.props.canvasTimeEnd ||
-//      nextProps.canvasWidth !== this.props.canvasWidth ||
-//      nextProps.dragSnap !== this.props.dragSnap ||
-//      nextProps.minResizeWidth !== this.props.minResizeWidth ||
-//      nextProps.canChangeGroup !== this.props.canChangeGroup ||
-//      nextProps.canSelect !== this.props.canSelect ||
-//      nextProps.canMove !== this.props.canMove ||
-//      nextProps.canResizeLeft !== this.props.canResizeLeft ||
-//      nextProps.canResizeRight !== this.props.canResizeRight ||
-      //!deepObjectCompare(nextProps.dimensions, this.props.dimensions) ||
-      return (nextProps.dimensions.left !== this.props.dimensions.left ||
+    return (nextProps.dimensions.left !== this.props.dimensions.left ||
       nextProps.dimensions.top !== this.props.dimensions.top ||
       nextProps.dimensions.width !== this.props.dimensions.width ||
       nextProps.dimensions.height !== this.props.dimensions.height ||
       nextState.resizing !== this.state.resizing ||
       nextState.resizeTime !== this.state.resizeTime ||
       nextProps.selected !== this.props.selected ||
+      nextProps.item.title !== this.props.item.title ||
+      nextProps.item.name !== this.props.item.name ||
       (nextProps.order ? nextProps.order.index : undefined) !==
-        (this.props.order ? this.props.order.index : undefined))
+      (this.props.order ? this.props.order.index : undefined))
   }
 
   cacheDataFromProps(props) {
     this.itemId = _get(props.item, props.keys.itemIdKey)
+    this.itemName = _get(props.item, props.keys.itemNameKey)
     this.itemTitle = _get(props.item, props.keys.itemTitleKey)
     this.itemDivTitle = props.keys.itemDivTitleKey
       ? _get(props.item, props.keys.itemDivTitleKey)
@@ -182,7 +170,7 @@ export default class Item extends Component {
 
       const offset = getSumOffset(this.props.scrollRef).offsetTop
       const scrolls = getSumScroll(this.props.scrollRef)
-      
+
       for (var key of Object.keys(groupTops)) {
         var groupTop = groupTops[key]
         if (e.pageY - offset + scrolls.scrollTop > groupTop) {
@@ -246,10 +234,11 @@ export default class Item extends Component {
           const clickTime = this.timeFor(e);
           this.setState({
             dragging: true,
-            dragStart: { 
+            dragStart: {
               x: e.pageX,
               y: e.pageY,
-            offset: this.itemTimeStart - clickTime },
+              offset: this.itemTimeStart - clickTime
+            },
             preDragPosition: { x: e.target.offsetLeft, y: e.target.offsetTop },
             dragTime: this.itemTimeStart,
             dragGroupDelta: 0
@@ -570,6 +559,7 @@ export default class Item extends Component {
       key: this.itemId,
       ref: this.getItemRef,
       title: this.itemDivTitle,
+      name: this.itemName,
       className: classNames + ` ${props.className ? props.className : ''}`,
       onMouseDown: composeEvents(this.onMouseDown, props.onMouseDown),
       onMouseUp: composeEvents(this.onMouseUp, props.onMouseUp),
@@ -653,6 +643,7 @@ export default class Item extends Component {
       dimensions: this.props.dimensions,
       useResizeHandle: this.props.useResizeHandle,
       title: this.itemTitle,
+      name: this.itemName,
       canMove: this.canMove(this.props),
       canResizeLeft: this.canResizeLeft(this.props),
       canResizeRight: this.canResizeRight(this.props),
