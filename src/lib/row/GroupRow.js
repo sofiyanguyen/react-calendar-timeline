@@ -15,11 +15,26 @@ class GroupRow extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.style.height !== this.props.style.height
-      || nextProps.style.width !== this.props.style.width
-      || nextProps.group !== this.props.group
-      || nextProps.horizontalLineClassNamesForGroup !== this.props.horizontalLineClassNamesForGroup
-      || (nextProps.horizontalLineClassNamesForGroup && this.props.horizontalLineClassNamesForGroup && (nextProps.horizontalLineClassNamesForGroup(nextProps.group) || []).join() !== (this.props.horizontalLineClassNamesForGroup(this.props.group) || []).join())
+    const { style: { height, width }, group, horizontalLineClassNamesForGroup } = this.props;
+
+    const changed = nextProps.style.height !== height
+      || nextProps.style.width !== width
+      || nextProps.group !== group;
+    if (changed) {
+      return true;
+    }
+
+    // If the horizontalLineClass handler is different to before
+    if (nextProps.horizontalLineClassNamesForGroup !== horizontalLineClassNamesForGroup) {
+      if (nextProps.horizontalLineClassNamesForGroup && horizontalLineClassNamesForGroup) {
+        return nextProps.horizontalLineClassNamesForGroup(nextProps.group) !== horizontalLineClassNamesForGroup(group)
+      }
+
+      // One of the handlers is now null so we cant compare, so update just in case
+      return true;
+    }
+
+    return false;
   }
 
   render() {
