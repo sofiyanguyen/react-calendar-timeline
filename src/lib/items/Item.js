@@ -445,6 +445,8 @@ export default class Item extends Component {
   }
 
   addItemMount = () => {
+    this.cacheDataFromProps(this.props)
+
     let { interactMounted } = this.state
     const couldDrag = this.props.selected && this.canMove(this.props)
     const couldResizeLeft =
@@ -483,10 +485,6 @@ export default class Item extends Component {
     if (interactMounted && couldDrag !== willBeAbleToDrag) {
       interact(this.item).draggable({ enabled: willBeAbleToDrag })
     }
-  }
-
-  componentWillUpdate() {
-    this.cacheDataFromProps(this.props)
   }
 
   componentDidUpdate() {
@@ -560,7 +558,7 @@ export default class Item extends Component {
     return {
       key: this.itemId,
       ref: this.getItemRef,
-      title: this.itemTitle,
+      title: this.itemDivTitle,
       name: this.itemName,
       className: classNames + ` ${props.className ? props.className : ''}`,
       onMouseDown: composeEvents(this.onMouseDown, props.onMouseDown),
