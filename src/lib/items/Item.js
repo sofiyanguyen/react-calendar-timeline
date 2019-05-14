@@ -107,11 +107,9 @@ export default class Item extends Component {
 
   cacheDataFromProps(props) {
     this.itemId = _get(props.item, props.keys.itemIdKey)
-    this.itemName = _get(props.item, props.keys.itemNameKey)
-    this.itemTitle = _get(props.item, props.keys.itemTitleKey)
     this.itemDivTitle = props.keys.itemDivTitleKey
       ? _get(props.item, props.keys.itemDivTitleKey)
-      : this.itemTitle
+      : _get(props.item, props.keys.itemTitleKey)
     this.itemTimeStart = _get(props.item, props.keys.itemTimeStartKey)
     this.itemTimeEnd = _get(props.item, props.keys.itemTimeEndKey)
   }
@@ -551,15 +549,15 @@ export default class Item extends Component {
 
   getItemProps = (props = {}) => {
     //TODO: maybe shouldnt include all of these classes
-    const classNames =
-      'rct-item' +
-      (this.props.item.className ? ` ${this.props.item.className}` : '')
-
+    const { item, keys } = this.props;
+    const classNames = 'rct-item' + (item.className ? ` ${item.className}` : '')
+    const name = _get(item, keys.itemNameKey)
+    const title = _get(item, keys.itemTitleKey)
     return {
       key: this.itemId,
       ref: this.getItemRef,
-      title: this.itemDivTitle,
-      name: this.itemName,
+      title,
+      name,
       className: classNames + ` ${props.className ? props.className : ''}`,
       onMouseDown: composeEvents(this.onMouseDown, props.onMouseDown),
       onMouseUp: composeEvents(this.onMouseUp, props.onMouseUp),
@@ -639,11 +637,14 @@ export default class Item extends Component {
     }
 
     const timelineContext = this.context.getTimelineContext()
+    const { item, keys } = this.props;
+    const name = _get(item, keys.itemNameKey)
+    const title = _get(item, keys.itemTitleKey)
     const itemContext = {
       dimensions: this.props.dimensions,
       useResizeHandle: this.props.useResizeHandle,
-      title: this.itemTitle,
-      name: this.itemName,
+      title,
+      name,
       canMove: this.canMove(this.props),
       canResizeLeft: this.canResizeLeft(this.props),
       canResizeRight: this.canResizeRight(this.props),
