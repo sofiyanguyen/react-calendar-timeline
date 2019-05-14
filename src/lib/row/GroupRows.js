@@ -23,7 +23,7 @@ export default class GroupRows extends Component {
       nextProps.newGroupOrder === this.props.newGroupOrder &&
       nextProps.canvasWidth === this.props.canvasWidth &&
       nextProps.lineCount === this.props.lineCount &&
-      nextProps.groups.length === this.props.groups.length &&
+      nextProps.groups === this.props.groups &&
       nextProps.groupHeights[this.props.newGroupOrder] === this.props.groupHeights[this.props.newGroupOrder] &&
       arraysEqual(nextProps.groupHeights, this.props.groupHeights)
     )
