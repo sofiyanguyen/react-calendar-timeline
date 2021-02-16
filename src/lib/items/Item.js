@@ -101,6 +101,7 @@ export default class Item extends Component {
       nextProps.selected !== this.props.selected ||
       nextProps.item.title !== this.props.item.title ||
       nextProps.item.name !== this.props.item.name ||
+      nextProps.item.className !== this.props.item.className ||
       (nextProps.order ? nextProps.order.index : undefined) !==
       (this.props.order ? this.props.order.index : undefined))
   }
