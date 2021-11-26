@@ -95,8 +95,8 @@ $weekend: rgba(250, 246, 225, 0.5);
       border-bottom: $border-width solid $border-color;
       cursor: pointer;
       &.rct-has-right-sidebar {
-        border-right: ($thick-border-width / 2) solid $border-color;
-        border-left: ($thick-border-width / 2) solid $border-color;
+        border-right: ($thick-border-width * 0.5) solid $border-color;
+        border-left: ($thick-border-width * 0.5) solid $border-color;
       }
 
       & > span {
@@ -127,7 +127,7 @@ $weekend: rgba(250, 246, 225, 0.5);
       }
     }
   }
- 
+
   .rct-sidebar-header {
     margin: 0;
     color: $sidebar-color;
