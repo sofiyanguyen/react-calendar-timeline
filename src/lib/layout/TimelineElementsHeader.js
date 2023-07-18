@@ -214,6 +214,10 @@ export default class TimelineElementsHeader extends Component {
       height: `${headerLabelGroupHeight + headerLabelHeight}px`
     }
 
+    const handleMouseDown = (e) => {
+      e.stopPropagation();
+    };
+
     return (
       <div
         key="header"
@@ -223,6 +227,7 @@ export default class TimelineElementsHeader extends Component {
         onTouchEnd={this.touchEnd}
         style={headerStyle}
         ref={this.props.scrollHeaderRef}
+        onMouseDown={handleMouseDown}
       >
         <div
           className="rct-top-header"
