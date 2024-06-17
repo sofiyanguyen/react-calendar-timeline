@@ -57,6 +57,10 @@ class ScrollElement extends Component {
   }
 
   handleMouseDown = e => {
+    if(this.props.isInteractingWithItem) {
+      return;
+    }
+    
     if (e.button === 0) {
       this.dragStartPosition = e.pageX
       this.dragLastPosition = e.pageX
