@@ -22,7 +22,7 @@ class ScrollElement extends Component {
       isDragging: false,
       startDragMs: null,
     }
-    this.dragDelayMs = 250; // 250 ms delay
+    this.dragDelayMs = 500; // 500 ms delay
   }
 
   componentDidMount(){
@@ -77,7 +77,7 @@ class ScrollElement extends Component {
   handleMouseMove = e => {
     //why is interacting with item important?
     if (this.state.isDragging && !this.props.isInteractingWithItem) {
-      if (this.props.itemSelected) {
+      if (this.props.isItemSelected) {
         const msNow = (new Date()).valueOf();
         const elapsedMs = msNow - this.state.startDragMs;
         if(elapsedMs < this.dragDelayMs) {
